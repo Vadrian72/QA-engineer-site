@@ -34,6 +34,19 @@
             overflow-x: hidden;
         }
 
+        /* Page container */
+        .page {
+            display: none;
+            min-height: 100vh;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .page.active {
+            display: block;
+            opacity: 1;
+        }
+
         /* Custom cursor */
         .cursor {
             width: 20px;
@@ -111,7 +124,7 @@
         .nav-links {
             display: flex;
             list-style: none;
-            gap: 3rem;
+            gap: 2rem;
             align-items: center;
         }
 
@@ -146,18 +159,39 @@
 
         .nav-cta {
             background: var(--gradient-accent);
-            padding: 0.8rem 1.5rem;
-            border-radius: 30px;
+            padding: 0.8rem 1.2rem;
+            border-radius: 25px;
             text-decoration: none;
-            color: white;
+            color: white !important;
             font-weight: bold;
             transition: all 0.3s ease;
             box-shadow: var(--glow);
+            white-space: nowrap;
+            display: inline-block;
+            text-align: center;
+            min-width: fit-content;
         }
 
         .nav-cta:hover {
             transform: translateY(-2px);
             box-shadow: 0 10px 30px rgba(0, 255, 247, 0.4);
+            background: var(--gradient-accent);
+        }
+
+        /* Mobile menu */
+        .menu-toggle {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+            gap: 4px;
+        }
+
+        .menu-toggle span {
+            width: 25px;
+            height: 3px;
+            background: var(--primary-text);
+            transition: 0.3s;
+            border-radius: 2px;
         }
 
         /* Hero Section */
@@ -190,7 +224,7 @@
         }
 
         .hero-subtitle {
-            font-size: 1.2rem;
+            font-size: clamp(1rem, 2.5vw, 1.2rem);
             color: var(--accent-color);
             font-weight: 600;
             margin-bottom: 1rem;
@@ -198,7 +232,7 @@
         }
 
         .hero h1 {
-            font-size: clamp(3rem, 8vw, 6rem);
+            font-size: clamp(2.5rem, 8vw, 6rem);
             font-weight: 900;
             margin-bottom: 1.5rem;
             background: var(--gradient-accent);
@@ -210,7 +244,7 @@
         }
 
         .hero-description {
-            font-size: 1.4rem;
+            font-size: clamp(1rem, 2.5vw, 1.4rem);
             color: var(--secondary-text);
             margin-bottom: 3rem;
             max-width: 700px;
@@ -230,15 +264,19 @@
         .hero-cta-primary {
             background: var(--gradient-accent);
             color: white;
-            padding: 1.2rem 2.5rem;
+            padding: 1.2rem 2rem;
             border-radius: 50px;
             text-decoration: none;
             font-weight: bold;
-            font-size: 1.1rem;
+            font-size: clamp(1rem, 2.5vw, 1.1rem);
             transition: all 0.3s ease;
             box-shadow: var(--glow);
             position: relative;
             overflow: hidden;
+            display: inline-block;
+            white-space: nowrap;
+            border: none;
+            cursor: pointer;
         }
 
         .hero-cta-primary::before {
@@ -261,18 +299,25 @@
             box-shadow: 0 15px 40px rgba(0, 255, 247, 0.4);
         }
 
+        /* Fix for the "unleash perfection" button staying highlighted */
+        .hero-cta-primary:focus {
+            outline: none;
+        }
+
         .hero-cta-secondary {
             background: transparent;
             color: var(--primary-text);
-            padding: 1.2rem 2.5rem;
+            padding: 1.2rem 2rem;
             border: 2px solid var(--accent-color);
             border-radius: 50px;
             text-decoration: none;
             font-weight: bold;
-            font-size: 1.1rem;
+            font-size: clamp(1rem, 2.5vw, 1.1rem);
             transition: all 0.3s ease;
             position: relative;
             overflow: hidden;
+            display: inline-block;
+            white-space: nowrap;
         }
 
         .hero-cta-secondary::before {
@@ -326,9 +371,9 @@
             cursor: pointer;
         }
 
-        /* Services Section */
+        /* Sections */
         .section {
-            padding: 8rem 0;
+            padding: clamp(4rem, 10vw, 8rem) 0;
             max-width: 1400px;
             margin: 0 auto;
             padding-left: 2rem;
@@ -343,12 +388,12 @@
         .section-subtitle {
             color: var(--accent-color);
             font-weight: 600;
-            font-size: 1.1rem;
+            font-size: clamp(1rem, 2.5vw, 1.1rem);
             margin-bottom: 1rem;
         }
 
         .section h2 {
-            font-size: clamp(2.5rem, 5vw, 4rem);
+            font-size: clamp(2rem, 6vw, 4rem);
             font-weight: 900;
             margin-bottom: 1.5rem;
             background: var(--gradient-primary);
@@ -358,7 +403,7 @@
         }
 
         .section-description {
-            font-size: 1.2rem;
+            font-size: clamp(1rem, 2.5vw, 1.2rem);
             color: var(--secondary-text);
             max-width: 600px;
             margin: 0 auto;
@@ -367,7 +412,7 @@
         /* Services Grid */
         .services-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(min(350px, 100%), 1fr));
             gap: 2rem;
             margin-top: 4rem;
         }
@@ -440,7 +485,7 @@
         }
 
         .service-card h3 {
-            font-size: 1.5rem;
+            font-size: clamp(1.2rem, 3vw, 1.5rem);
             font-weight: 700;
             margin-bottom: 1rem;
             color: var(--primary-text);
@@ -450,6 +495,7 @@
             color: var(--secondary-text);
             line-height: 1.7;
             margin-bottom: 1.5rem;
+            font-size: clamp(0.9rem, 2.5vw, 1rem);
         }
 
         .service-link {
@@ -460,6 +506,7 @@
             align-items: center;
             gap: 0.5rem;
             transition: all 0.3s ease;
+            font-size: clamp(0.9rem, 2.5vw, 1rem);
         }
 
         .service-link:hover {
@@ -467,28 +514,20 @@
             transform: translateX(5px);
         }
 
-        /* Interactive Features Section */
-        .features-section {
+        /* Service Detail Page Styles */
+        .service-detail {
+            padding-top: 100px;
+            min-height: 100vh;
+        }
+
+        .service-hero {
             background: var(--secondary-bg);
-            position: relative;
-        }
-
-        .features-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 3rem;
-            margin-top: 4rem;
-        }
-
-        .feature-card {
+            padding: 4rem 0;
             text-align: center;
-            padding: 2rem;
-            position: relative;
         }
 
-        .feature-number {
-            font-size: 4rem;
-            font-weight: 900;
+        .service-hero h1 {
+            font-size: clamp(2.5rem, 6vw, 4rem);
             background: var(--gradient-accent);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
@@ -496,108 +535,59 @@
             margin-bottom: 1rem;
         }
 
-        .feature-title {
-            font-size: 1.5rem;
-            font-weight: 700;
-            margin-bottom: 1rem;
-        }
-
-        .feature-description {
-            color: var(--secondary-text);
-            line-height: 1.6;
-        }
-
-        /* Statistics Counter */
-        .stats-section {
-            background: var(--primary-bg);
-            text-align: center;
-        }
-
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 3rem;
-            margin-top: 4rem;
-        }
-
-        .stat-item {
-            padding: 2rem;
-        }
-
-        .stat-number {
-            font-size: 3.5rem;
-            font-weight: 900;
-            color: var(--accent-color);
-            margin-bottom: 0.5rem;
-            counter-reset: stat-counter;
-        }
-
-        .stat-label {
-            font-size: 1.1rem;
-            color: var(--secondary-text);
-            font-weight: 600;
-        }
-
-        /* Contact Form */
-        .contact-section {
-            background: var(--secondary-bg);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .contact-container {
+        .service-content {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 4rem;
-            align-items: start;
+            margin-top: 4rem;
         }
 
-        .contact-info {
-            padding: 2rem 0;
+        .feature-list {
+            list-style: none;
+            margin-top: 2rem;
         }
 
-        .contact-info h3 {
-            font-size: 2rem;
-            margin-bottom: 1rem;
-            background: var(--gradient-accent);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        .contact-info p {
-            color: var(--secondary-text);
-            margin-bottom: 2rem;
-            font-size: 1.1rem;
-        }
-
-        .contact-methods {
-            display: flex;
-            flex-direction: column;
-            gap: 1.5rem;
-        }
-
-        .contact-method {
+        .feature-list li {
             display: flex;
             align-items: center;
             gap: 1rem;
+            margin-bottom: 1rem;
             padding: 1rem;
             background: var(--card-bg);
             border-radius: 10px;
             transition: all 0.3s ease;
         }
 
-        .contact-method:hover {
+        .feature-list li:hover {
             transform: translateX(10px);
             background: rgba(0, 255, 247, 0.1);
         }
 
+        .back-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--accent-color);
+            text-decoration: none;
+            margin-bottom: 2rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .back-button:hover {
+            transform: translateX(-5px);
+            text-shadow: var(--glow);
+        }
+
+        /* Contact Form */
         .contact-form {
             background: var(--card-bg);
             padding: 3rem;
             border-radius: 25px;
             border: 1px solid rgba(255, 255, 255, 0.05);
             backdrop-filter: blur(10px);
+            max-width: 800px;
+            margin: 0 auto;
         }
 
         .form-row {
@@ -617,6 +607,7 @@
             margin-bottom: 0.5rem;
             color: var(--secondary-text);
             font-weight: 600;
+            font-size: clamp(0.9rem, 2.5vw, 1rem);
         }
 
         .form-group input,
@@ -628,7 +619,7 @@
             border: 2px solid rgba(255, 255, 255, 0.1);
             border-radius: 15px;
             color: var(--primary-text);
-            font-size: 1rem;
+            font-size: clamp(0.9rem, 2.5vw, 1rem);
             transition: all 0.3s ease;
             font-family: inherit;
         }
@@ -649,7 +640,7 @@
             border: none;
             border-radius: 15px;
             color: white;
-            font-size: 1.1rem;
+            font-size: clamp(1rem, 2.5vw, 1.1rem);
             font-weight: bold;
             cursor: pointer;
             transition: all 0.4s ease;
@@ -682,11 +673,12 @@
             background: var(--primary-bg);
             padding: 4rem 0 2rem;
             border-top: 1px solid rgba(255, 255, 255, 0.05);
+            margin-top: 4rem;
         }
 
         .footer-content {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(min(250px, 100%), 1fr));
             gap: 3rem;
             margin-bottom: 2rem;
         }
@@ -694,7 +686,7 @@
         .footer-section h4 {
             color: var(--accent-color);
             margin-bottom: 1rem;
-            font-size: 1.2rem;
+            font-size: clamp(1rem, 2.5vw, 1.2rem);
         }
 
         .footer-section a {
@@ -703,6 +695,7 @@
             transition: color 0.3s ease;
             display: block;
             margin-bottom: 0.5rem;
+            font-size: clamp(0.9rem, 2.5vw, 1rem);
         }
 
         .footer-section a:hover {
@@ -714,73 +707,38 @@
             padding-top: 2rem;
             border-top: 1px solid rgba(255, 255, 255, 0.05);
             color: var(--secondary-text);
+            font-size: clamp(0.8rem, 2.5vw, 0.9rem);
         }
 
         /* Animations */
         @keyframes heroEntry {
-            from {
-                opacity: 0;
-                transform: translateY(50px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+            from { opacity: 0; transform: translateY(50px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
         @keyframes slideInFromTop {
-            from {
-                opacity: 0;
-                transform: translateY(-30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+            from { opacity: 0; transform: translateY(-30px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
         @keyframes slideInFromLeft {
-            from {
-                opacity: 0;
-                transform: translateX(-50px);
-            }
-            to {
-                opacity: 1;
-                transform: translateX(0);
-            }
+            from { opacity: 0; transform: translateX(-50px); }
+            to { opacity: 1; transform: translateX(0); }
         }
 
         @keyframes slideInFromRight {
-            from {
-                opacity: 0;
-                transform: translateX(50px);
-            }
-            to {
-                opacity: 1;
-                transform: translateX(0);
-            }
+            from { opacity: 0; transform: translateX(50px); }
+            to { opacity: 1; transform: translateX(0); }
         }
 
         @keyframes slideInFromBottom {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
         @keyframes float {
-            0%, 100% { 
-                transform: translateY(0px) rotate(0deg); 
-                opacity: 0.6;
-            }
-            50% { 
-                transform: translateY(-20px) rotate(180deg); 
-                opacity: 1;
-            }
+            0%, 100% { transform: translateY(0px) rotate(0deg); opacity: 0.6; }
+            50% { transform: translateY(-20px) rotate(180deg); opacity: 1; }
         }
 
         @keyframes bounce {
@@ -795,25 +753,49 @@
         }
 
         /* Responsive Design */
+        @media (max-width: 1024px) {
+            .nav-container {
+                padding: 0 1.5rem;
+            }
+            
+            .service-content {
+                grid-template-columns: 1fr;
+            }
+        }
+
         @media (max-width: 768px) {
-            .nav-links {
-                display: none;
+            .menu-toggle {
+                display: flex;
             }
 
-            .hero h1 {
-                font-size: 3rem;
+            .nav-links {
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                width: 100%;
+                background: var(--secondary-bg);
+                flex-direction: column;
+                padding: 2rem;
+                gap: 1rem;
+                border-top: 1px solid rgba(255, 255, 255, 0.05);
+            }
+
+            .nav-links.active {
+                display: flex;
+            }
+
+            .nav-container {
+                padding: 0 1rem;
             }
 
             .hero-cta-container {
                 flex-direction: column;
                 align-items: center;
+                gap: 1rem;
             }
 
             .services-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .contact-container {
                 grid-template-columns: 1fr;
             }
 
@@ -821,53 +803,44 @@
                 grid-template-columns: 1fr;
             }
 
-            .stats-grid {
-                grid-template-columns: repeat(2, 1fr);
+            .section {
+                padding-left: 1rem;
+                padding-right: 1rem;
+            }
+
+            .contact-form {
+                padding: 2rem;
+                margin: 0 1rem;
             }
         }
 
-        /* Loading animation */
-        .loading-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: var(--primary-bg);
-            z-index: 9999;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            opacity: 1;
-            transition: opacity 0.5s ease;
+        @media (max-width: 480px) {
+            .hero-content {
+                padding: 0 1rem;
+            }
+
+            .service-card {
+                padding: 2rem;
+            }
+
+            .footer-content {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
         }
 
-        .loading-overlay.hidden {
-            opacity: 0;
-            pointer-events: none;
+        /* Page transition effects */
+        .page-transition {
+            animation: pageSlideIn 0.5s ease-out;
         }
 
-        .loader {
-            width: 50px;
-            height: 50px;
-            border: 3px solid rgba(0, 255, 247, 0.3);
-            border-top: 3px solid var(--accent-color);
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-        }
-
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
+        @keyframes pageSlideIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
         }
     </style>
 </head>
 <body>
-    <!-- Loading Overlay -->
-    <div class="loading-overlay" id="loadingOverlay">
-        <div class="loader"></div>
-    </div>
-
     <!-- Custom Cursor -->
     <div class="cursor" id="cursor"></div>
     <div class="cursor-follower" id="cursorFollower"></div>
@@ -875,194 +848,234 @@
     <!-- Navigation -->
     <nav class="navbar">
         <div class="nav-container">
-            <div class="logo">ZATORA</div>
-            <ul class="nav-links">
-                <li><a href="#home">Home</a></li>
-                <li><a href="#services">Services</a></li>
-                <li><a href="#features">Features</a></li>
-                <li><a href="#stats">Results</a></li>
-                <li><a href="#contact">Contact</a></li>
-                <li><a href="#contact" class="nav-cta">Start Your Project</a></li>
+            <div class="logo" onclick="navigateTo('home')">ZATORA</div>
+            <div class="menu-toggle" onclick="toggleMenu()">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+            <ul class="nav-links" id="navLinks">
+                <li><a href="#" onclick="navigateTo('home')">Home</a></li>
+                <li><a href="#" onclick="navigateTo('services')">Services</a></li>
+                <li><a href="#" onclick="navigateTo('about')">About</a></li>
+                <li><a href="#" onclick="navigateTo('contact')">Contact</a></li>
+                <li><a href="#" onclick="navigateTo('contact')" class="nav-cta">Start Project</a></li>
             </ul>
         </div>
     </nav>
 
-    <!-- Hero Section -->
-    <section id="home" class="hero">
-        <div class="hero-bg"></div>
-        <div class="particle"></div>
-        <div class="particle"></div>
-        <div class="particle"></div>
-        <div class="particle"></div>
-        <div class="particle"></div>
-        
-        <div class="hero-content">
-            <div class="hero-subtitle">NEXT-GENERATION QA SOLUTIONS</div>
-            <h1>Quality That Transforms</h1>
-            <p class="hero-description">We don't just test software – we architect perfection. Experience the future of quality assurance with AI-powered testing, quantum-speed automation, and precision that exceeds human limits.</p>
-            <div class="hero-cta-container">
-                <a href="#contact" class="hero-cta-primary">Unleash Perfection</a>
-                <a href="#services" class="hero-cta-secondary">Explore Our Arsenal</a>
+    <!-- HOME PAGE -->
+    <div id="home" class="page active">
+        <!-- Hero Section -->
+        <section class="hero">
+            <div class="hero-bg"></div>
+            <div class="particle"></div>
+            <div class="particle"></div>
+            <div class="particle"></div>
+            <div class="particle"></div>
+            <div class="particle"></div>
+            
+            <div class="hero-content">
+                <div class="hero-subtitle">NEXT-GENERATION QA SOLUTIONS</div>
+                <h1>Quality That Transforms</h1>
+                <p class="hero-description">We don't just test software – we architect perfection. Experience the future of quality assurance with AI-powered testing, quantum-speed automation, and precision that exceeds human limits.</p>
+                <div class="hero-cta-container">
+                    <button class="hero-cta-primary" onclick="navigateTo('contact')">Unleash Perfection</button>
+                    <a href="#" class="hero-cta-secondary" onclick="navigateTo('services')">Explore Arsenal</a>
+                </div>
             </div>
-        </div>
-        
-        <div class="scroll-indicator" onclick="scrollToSection('services')">↓</div>
-    </section>
+            
+            <div class="scroll-indicator" onclick="navigateTo('services')">↓</div>
+        </section>
+    </div>
 
-    <!-- Services Section -->
-    <section id="services" class="section">
-        <div class="section-header">
-            <div class="section-subtitle">OUR EXPERTISE</div>
-            <h2>Revolutionary QA Services</h2>
-            <p class="section-description">From concept to deployment, we provide end-to-end quality assurance solutions that redefine industry standards.</p>
-        </div>
-        
-        <div class="services-grid">
-            <div class="service-card">
-                <div class="service-icon">🧠</div>
-                <h3>AI-Powered Testing</h3>
-                <p>Harness the power of artificial intelligence to predict, detect, and eliminate bugs before they impact your users. Our machine learning algorithms adapt and evolve with your application.</p>
-                <a href="#contact" class="service-link">Learn More →</a>
+    <!-- SERVICES PAGE -->
+    <div id="services" class="page">
+        <section class="section" style="padding-top: 120px;">
+            <div class="section-header">
+                <div class="section-subtitle">OUR EXPERTISE</div>
+                <h2>Revolutionary QA Services</h2>
+                <p class="section-description">From concept to deployment, we provide end-to-end quality assurance solutions that redefine industry standards.</p>
             </div>
             
-            <div class="service-card">
-                <div class="service-icon">⚡</div>
-                <h3>Quantum Automation</h3>
-                <p>Lightning-fast test execution with our proprietary automation framework. Reduce testing cycles from weeks to hours while maintaining 100% accuracy and coverage.</p>
-                <a href="#contact" class="service-link">Discover How →</a>
-            </div>
-            
-            <div class="service-card">
-                <div class="service-icon">🛡️</div>
-                <h3>Fortress Security Testing</h3>
-                <p>Multi-layered security analysis that goes beyond traditional penetration testing. We simulate real-world attack scenarios to fortify your digital assets.</p>
-                <a href="#contact" class="service-link">Secure Your App →</a>
-            </div>
-            
-            <div class="service-card">
-                <div class="service-icon">🚀</div>
-                <h3>Performance Optimization</h3>
-                <p>Unlock your application's true potential with performance testing that scales. From load balancing to memory optimization, we maximize every millisecond.</p>
-                <a href="#contact" class="service-link">Boost Performance →</a>
-            </div>
-            
-            <div class="service-card">
-                <div class="service-icon">📱</div>
-                <h3>Cross-Platform Mastery</h3>
-                <p>Seamless testing across all devices, browsers, and operating systems. One codebase, infinite possibilities, zero compromises in quality.</p>
-                <a href="#contact" class="service-link">Go Universal →</a>
-            </div>
-            
-            <div class="service-card">
-                <div class="service-icon">☁️</div>
-                <h3>Cloud-Native Solutions</h3>
-                <p>Scalable testing infrastructure that grows with your ambitions. Deploy, test, and validate in the cloud with enterprise-grade reliability.</p>
-                <a href="#contact" class="service-link">Scale Infinitely →</a>
-            </div>
-        </div>
-    </section>
-
-    <!-- Features Section -->
-    <section id="features" class="section features-section">
-        <div class="section-header">
-            <div class="section-subtitle">WHY CHOOSE ZATORA</div>
-            <h2>The ZATORA Advantage</h2>
-            <p class="section-description">We don't follow industry standards – we create them. Experience quality assurance that's years ahead of the competition.</p>
-        </div>
-        
-        <div class="features-grid">
-            <div class="feature-card">
-                <div class="feature-number">01</div>
-                <h3 class="feature-title">Predictive Intelligence</h3>
-                <p class="feature-description">Our AI algorithms don't just find bugs – they predict where they'll occur next, preventing issues before they manifest.</p>
-            </div>
-            
-            <div class="feature-card">
-                <div class="feature-number">02</div>
-                <h3 class="feature-title">Zero-Downtime Testing</h3>
-                <p class="feature-description">Revolutionary testing methodology that validates your application without interrupting live operations or user experience.</p>
-            </div>
-            
-            <div class="feature-card">
-                <div class="feature-number">03</div>
-                <h3 class="feature-title">Quantum Reporting</h3>
-                <p class="feature-description">Real-time insights with interactive dashboards that provide actionable intelligence, not just data dumps.</p>
-            </div>
-            
-            <div class="feature-card">
-                <div class="feature-number">04</div>
-                <h3 class="feature-title">Global Scale</h3>
-                <p class="feature-description">Testing infrastructure spanning 6 continents with 24/7 monitoring and support that never sleeps.</p>
-            </div>
-        </div>
-    </section>
-
-    <!-- Statistics Section -->
-    <section id="stats" class="section stats-section">
-        <div class="section-header">
-            <div class="section-subtitle">PROVEN RESULTS</div>
-            <h2>Numbers That Speak</h2>
-            <p class="section-description">Every project we touch becomes a success story. These aren't just statistics – they're testimonials to our excellence.</p>
-        </div>
-        
-        <div class="stats-grid">
-            <div class="stat-item">
-                <div class="stat-number" data-count="99.9">0</div>
-                <div class="stat-label">% Bug Detection Rate</div>
-            </div>
-            <div class="stat-item">
-                <div class="stat-number" data-count="1247">0</div>
-                <div class="stat-label">Projects Perfected</div>
-            </div>
-            <div class="stat-item">
-                <div class="stat-number" data-count="89">0</div>
-                <div class="stat-label">% Faster Delivery</div>
-            </div>
-            <div class="stat-item">
-                <div class="stat-number" data-count="24">0</div>
-                <div class="stat-label">Hour Response Time</div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Contact Section -->
-    <section id="contact" class="section contact-section">
-        <div class="section-header">
-            <div class="section-subtitle">LET'S CREATE PERFECTION</div>
-            <h2>Ready to Transform?</h2>
-            <p class="section-description">Don't settle for ordinary quality. Let's discuss how ZATORA can elevate your software to extraordinary heights.</p>
-        </div>
-        
-        <div class="contact-container">
-            <div class="contact-info">
-                <h3>Connect With Excellence</h3>
-                <p>Every great software product starts with a conversation. Tell us about your vision, and we'll show you how to make it flawless.</p>
+            <div class="services-grid">
+                <div class="service-card" onclick="navigateTo('ai-testing')">
+                    <div class="service-icon">🧠</div>
+                    <h3>AI-Powered Testing</h3>
+                    <p>Harness the power of artificial intelligence to predict, detect, and eliminate bugs before they impact your users. Our machine learning algorithms adapt and evolve with your application.</p>
+                    <a href="#" class="service-link" onclick="navigateTo('ai-testing')">Learn More →</a>
+                </div>
                 
-                <div class="contact-methods">
-                    <div class="contact-method">
-                        <div class="service-icon" style="width: 50px; height: 50px; font-size: 1.2rem;">📧</div>
-                        <div>
-                            <strong>Email Response</strong><br>
-                            <span style="color: var(--secondary-text);">Within 2 hours, guaranteed</span>
-                        </div>
+                <div class="service-card" onclick="navigateTo('automation')">
+                    <div class="service-icon">⚡</div>
+                    <h3>Quantum Automation</h3>
+                    <p>Lightning-fast test execution with our proprietary automation framework. Reduce testing cycles from weeks to hours while maintaining 100% accuracy and coverage.</p>
+                    <a href="#" class="service-link" onclick="navigateTo('automation')">Discover How →</a>
+                </div>
+                
+                <div class="service-card" onclick="navigateTo('security')">
+                    <div class="service-icon">🛡️</div>
+                    <h3>Fortress Security Testing</h3>
+                    <p>Multi-layered security analysis that goes beyond traditional penetration testing. We simulate real-world attack scenarios to fortify your digital assets.</p>
+                    <a href="#" class="service-link" onclick="navigateTo('security')">Secure Your App →</a>
+                </div>
+                
+                <div class="service-card" onclick="navigateTo('performance')">
+                    <div class="service-icon">🚀</div>
+                    <h3>Performance Optimization</h3>
+                    <p>Unlock your application's true potential with performance testing that scales. From load balancing to memory optimization, we maximize every millisecond.</p>
+                    <a href="#" class="service-link" onclick="navigateTo('performance')">Boost Performance →</a>
+                </div>
+                
+                <div class="service-card" onclick="navigateTo('mobile')">
+                    <div class="service-icon">📱</div>
+                    <h3>Cross-Platform Mastery</h3>
+                    <p>Seamless testing across all devices, browsers, and operating systems. One codebase, infinite possibilities, zero compromises in quality.</p>
+                    <a href="#" class="service-link" onclick="navigateTo('mobile')">Go Universal →</a>
+                </div>
+                
+                <div class="service-card" onclick="navigateTo('cloud')">
+                    <div class="service-icon">☁️</div>
+                    <h3>Cloud-Native Solutions</h3>
+                    <p>Scalable testing infrastructure that grows with your ambitions. Deploy, test, and validate in the cloud with enterprise-grade reliability.</p>
+                    <a href="#" class="service-link" onclick="navigateTo('cloud')">Scale Infinitely →</a>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Footer -->
+        <footer class="footer">
+            <div class="section">
+                <div class="footer-content">
+                    <div class="footer-section">
+                        <h4>ZATORA</h4>
+                        <p style="color: var(--secondary-text); margin-bottom: 1rem;">Redefining the future of quality assurance through innovation, precision, and relentless pursuit of perfection.</p>
                     </div>
                     
-                    <div class="contact-method">
-                        <div class="service-icon" style="width: 50px; height: 50px; font-size: 1.2rem;">🚀</div>
-                        <div>
-                            <strong>Project Kickoff</strong><br>
-                            <span style="color: var(--secondary-text);">48-hour turnaround</span>
-                        </div>
+                    <div class="footer-section">
+                        <h4>Services</h4>
+                        <a href="#" onclick="navigateTo('ai-testing')">AI-Powered Testing</a>
+                        <a href="#" onclick="navigateTo('automation')">Quantum Automation</a>
+                        <a href="#" onclick="navigateTo('security')">Security Testing</a>
+                        <a href="#" onclick="navigateTo('performance')">Performance Optimization</a>
                     </div>
                     
-                    <div class="contact-method">
-                        <div class="service-icon" style="width: 50px; height: 50px; font-size: 1.2rem;">🎯</div>
-                        <div>
-                            <strong>Custom Solutions</strong><br>
-                            <span style="color: var(--secondary-text);">Tailored to your exact needs</span>
-                        </div>
+                    <div class="footer-section">
+                        <h4>Company</h4>
+                        <a href="#" onclick="navigateTo('about')">About Us</a>
+                        <a href="#" onclick="navigateTo('contact')">Contact</a>
+                        <a href="#" onclick="navigateTo('contact')">Careers</a>
+                        <a href="#" onclick="navigateTo('contact')">Blog</a>
+                    </div>
+                    
+                    <div class="footer-section">
+                        <h4>Contact</h4>
+                        <p style="color: var(--secondary-text);">📧 hello@zatora.com</p>
+                        <p style="color: var(--secondary-text);">📞 +1 (555) ZATORA-1</p>
+                        <p style="color: var(--secondary-text);">🌍 Global Remote Team</p>
                     </div>
                 </div>
+                
+                <div class="footer-bottom">
+                    <p>&copy; 2025 ZATORA. All rights reserved.</p>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <!-- ABOUT PAGE -->
+    <div id="about" class="page">
+        <section class="section" style="padding-top: 120px;">
+            <div class="section-header">
+                <div class="section-subtitle">WHO WE ARE</div>
+                <h2>The ZATORA Story</h2>
+                <p class="section-description">We don't follow industry standards – we create them. Experience quality assurance that's years ahead of the competition.</p>
+            </div>
+            
+            <div class="service-content">
+                <div>
+                    <h3 style="font-size: 2rem; margin-bottom: 1.5rem; color: var(--accent-color);">Our Mission</h3>
+                    <p style="color: var(--secondary-text); font-size: 1.1rem; line-height: 1.8; margin-bottom: 2rem;">
+                        With over 10 years of experience in the QA industry, ZATORA leads the charge in delivering next-generation software testing solutions. Our team of elite engineers works with cutting-edge technologies and revolutionary methodologies to guarantee the excellence of your software products.
+                    </p>
+                    
+                    <p style="color: var(--secondary-text); font-size: 1.1rem; line-height: 1.8; margin-bottom: 2rem;">
+                        We pride ourselves on our personalized approach, adapting to the specific needs of each client and project. From innovative startups to multinational corporations, we provide QA services that exceed all expectations.
+                    </p>
+                    
+                    <p style="color: var(--secondary-text); font-size: 1.1rem; line-height: 1.8;">
+                        Our mission is to transform how companies approach software quality, offering efficient, scalable, and cost-effective solutions that drive real business results.
+                    </p>
+                </div>
+                
+                <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.5rem;">
+                    <div style="text-align: center; padding: 2rem; background: var(--card-bg); border-radius: 15px;">
+                        <div style="font-size: 3rem; font-weight: 900; color: var(--accent-color); margin-bottom: 0.5rem;">1247+</div>
+                        <div style="color: var(--secondary-text);">Projects Perfected</div>
+                    </div>
+                    <div style="text-align: center; padding: 2rem; background: var(--card-bg); border-radius: 15px;">
+                        <div style="font-size: 3rem; font-weight: 900; color: var(--accent-color); margin-bottom: 0.5rem;">99.9%</div>
+                        <div style="color: var(--secondary-text);">Bug Detection Rate</div>
+                    </div>
+                    <div style="text-align: center; padding: 2rem; background: var(--card-bg); border-radius: 15px;">
+                        <div style="font-size: 3rem; font-weight: 900; color: var(--accent-color); margin-bottom: 0.5rem;">89%</div>
+                        <div style="color: var(--secondary-text);">Faster Delivery</div>
+                    </div>
+                    <div style="text-align: center; padding: 2rem; background: var(--card-bg); border-radius: 15px;">
+                        <div style="font-size: 3rem; font-weight: 900; color: var(--accent-color); margin-bottom: 0.5rem;">24/7</div>
+                        <div style="color: var(--secondary-text);">Support Available</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Footer -->
+        <footer class="footer">
+            <div class="section">
+                <div class="footer-content">
+                    <div class="footer-section">
+                        <h4>ZATORA</h4>
+                        <p style="color: var(--secondary-text); margin-bottom: 1rem;">Redefining the future of quality assurance through innovation, precision, and relentless pursuit of perfection.</p>
+                    </div>
+                    
+                    <div class="footer-section">
+                        <h4>Services</h4>
+                        <a href="#" onclick="navigateTo('ai-testing')">AI-Powered Testing</a>
+                        <a href="#" onclick="navigateTo('automation')">Quantum Automation</a>
+                        <a href="#" onclick="navigateTo('security')">Security Testing</a>
+                        <a href="#" onclick="navigateTo('performance')">Performance Optimization</a>
+                    </div>
+                    
+                    <div class="footer-section">
+                        <h4>Company</h4>
+                        <a href="#" onclick="navigateTo('about')">About Us</a>
+                        <a href="#" onclick="navigateTo('contact')">Contact</a>
+                        <a href="#" onclick="navigateTo('contact')">Careers</a>
+                        <a href="#" onclick="navigateTo('contact')">Blog</a>
+                    </div>
+                    
+                    <div class="footer-section">
+                        <h4>Contact</h4>
+                        <p style="color: var(--secondary-text);">📧 hello@zatora.com</p>
+                        <p style="color: var(--secondary-text);">📞 +1 (555) ZATORA-1</p>
+                        <p style="color: var(--secondary-text);">🌍 Global Remote Team</p>
+                    </div>
+                </div>
+                
+                <div class="footer-bottom">
+                    <p>&copy; 2025 ZATORA. All rights reserved.</p>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <!-- CONTACT PAGE -->
+    <div id="contact" class="page">
+        <section class="section" style="padding-top: 120px;">
+            <div class="section-header">
+                <div class="section-subtitle">LET'S CREATE PERFECTION</div>
+                <h2>Ready to Transform?</h2>
+                <p class="section-description">Don't settle for ordinary quality. Let's discuss how ZATORA can elevate your software to extraordinary heights.</p>
             </div>
             
             <form class="contact-form" id="contactForm">
@@ -1123,109 +1136,502 @@
                     </div>
                 </div>
                 
-                <div class="form-row">
-                    <div class="form-group">
-                        <label for="timeline">Target Timeline</label>
-                        <select id="timeline" name="timeline">
-                            <option value="">When do you need results?</option>
-                            <option value="immediate">Immediate (This week)</option>
-                            <option value="urgent">Urgent (2-4 weeks)</option>
-                            <option value="standard">Standard (1-2 months)</option>
-                            <option value="planned">Planned (3+ months)</option>
-                            <option value="flexible">Flexible timeline</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="teamSize">Current Team Size</label>
-                        <select id="teamSize" name="teamSize">
-                            <option value="">Select team size</option>
-                            <option value="solo">Solo founder</option>
-                            <option value="small">Small team (2-10)</option>
-                            <option value="medium">Medium team (11-50)</option>
-                            <option value="large">Large team (51-200)</option>
-                            <option value="enterprise">Enterprise (200+)</option>
-                        </select>
-                    </div>
-                </div>
-                
-                <div class="form-group">
-                    <label for="currentChallenges">Current Quality Challenges</label>
-                    <textarea id="currentChallenges" name="currentChallenges" rows="3" placeholder="What specific quality issues are you facing? (e.g., slow testing cycles, missed bugs in production, lack of automation, security concerns)"></textarea>
-                </div>
-                
                 <div class="form-group">
                     <label for="projectDescription">Project Vision *</label>
                     <textarea id="projectDescription" name="projectDescription" rows="4" placeholder="Describe your project and what you want to achieve. The more details you share, the better we can tailor our approach to your needs." required></textarea>
                 </div>
                 
-                <div class="form-group">
-                    <label for="techStack">Technology Stack</label>
-                    <textarea id="techStack" name="techStack" rows="2" placeholder="What technologies are you using? (e.g., React, Node.js, Python, AWS, Docker, etc.)"></textarea>
-                </div>
-                
                 <button type="submit" class="submit-btn">Launch Your Quality Revolution</button>
             </form>
-        </div>
-    </section>
-
-    <!-- Footer -->
-    <footer class="footer">
-        <div class="section">
-            <div class="footer-content">
-                <div class="footer-section">
-                    <h4>ZATORA</h4>
-                    <p style="color: var(--secondary-text); margin-bottom: 1rem;">Redefining the future of quality assurance through innovation, precision, and relentless pursuit of perfection.</p>
-                    <div style="display: flex; gap: 1rem;">
-                        <a href="#" style="display: inline-block; width: 40px; height: 40px; background: var(--gradient-accent); border-radius: 50%; display: flex; align-items: center; justify-content: center; text-decoration: none;">📧</a>
-                        <a href="#" style="display: inline-block; width: 40px; height: 40px; background: var(--gradient-accent); border-radius: 50%; display: flex; align-items: center; justify-content: center; text-decoration: none;">🔗</a>
-                        <a href="#" style="display: inline-block; width: 40px; height: 40px; background: var(--gradient-accent); border-radius: 50%; display: flex; align-items: center; justify-content: center; text-decoration: none;">🐦</a>
+        </section>
+        
+        <!-- Footer -->
+        <footer class="footer">
+            <div class="section">
+                <div class="footer-content">
+                    <div class="footer-section">
+                        <h4>ZATORA</h4>
+                        <p style="color: var(--secondary-text); margin-bottom: 1rem;">Redefining the future of quality assurance through innovation, precision, and relentless pursuit of perfection.</p>
+                    </div>
+                    
+                    <div class="footer-section">
+                        <h4>Services</h4>
+                        <a href="#" onclick="navigateTo('ai-testing')">AI-Powered Testing</a>
+                        <a href="#" onclick="navigateTo('automation')">Quantum Automation</a>
+                        <a href="#" onclick="navigateTo('security')">Security Testing</a>
+                        <a href="#" onclick="navigateTo('performance')">Performance Optimization</a>
+                    </div>
+                    
+                    <div class="footer-section">
+                        <h4>Company</h4>
+                        <a href="#" onclick="navigateTo('about')">About Us</a>
+                        <a href="#" onclick="navigateTo('contact')">Contact</a>
+                        <a href="#" onclick="navigateTo('contact')">Careers</a>
+                        <a href="#" onclick="navigateTo('contact')">Blog</a>
+                    </div>
+                    
+                    <div class="footer-section">
+                        <h4>Contact</h4>
+                        <p style="color: var(--secondary-text);">📧 hello@zatora.com</p>
+                        <p style="color: var(--secondary-text);">📞 +1 (555) ZATORA-1</p>
+                        <p style="color: var(--secondary-text);">🌍 Global Remote Team</p>
                     </div>
                 </div>
                 
-                <div class="footer-section">
-                    <h4>Services</h4>
-                    <a href="#services">AI-Powered Testing</a>
-                    <a href="#services">Quantum Automation</a>
-                    <a href="#services">Security Testing</a>
-                    <a href="#services">Performance Optimization</a>
-                    <a href="#services">Cross-Platform Testing</a>
-                    <a href="#services">Cloud Solutions</a>
-                </div>
-                
-                <div class="footer-section">
-                    <h4>Company</h4>
-                    <a href="#features">Why Choose Us</a>
-                    <a href="#stats">Success Stories</a>
-                    <a href="#contact">Careers</a>
-                    <a href="#contact">Partners</a>
-                    <a href="#contact">Resources</a>
-                    <a href="#contact">Blog</a>
-                </div>
-                
-                <div class="footer-section">
-                    <h4>Contact</h4>
-                    <p style="color: var(--secondary-text);">📧 hello@zatora.com</p>
-                    <p style="color: var(--secondary-text);">📞 +1 (555) ZATORA-1</p>
-                    <p style="color: var(--secondary-text);">🌍 Global Remote Team</p>
-                    <p style="color: var(--secondary-text);">⏰ 24/7 Support Available</p>
+                <div class="footer-bottom">
+                    <p>&copy; 2025 ZATORA. All rights reserved.</p>
                 </div>
             </div>
-            
-            <div class="footer-bottom">
-                <p>&copy; 2025 ZATORA. All rights reserved. | Privacy Policy | Terms of Service | Quality Guaranteed</p>
-            </div>
+        </footer>
+    </div>
+
+    <!-- AI TESTING SERVICE PAGE -->
+    <div id="ai-testing" class="page">
+        <div class="service-detail">
+            <section class="section">
+                <a href="#" class="back-button" onclick="navigateTo('services')">← Back to Services</a>
+                
+                <div class="service-hero">
+                    <h1>AI-Powered Testing</h1>
+                    <p style="font-size: 1.3rem; color: var(--secondary-text); max-width: 800px; margin: 0 auto;">
+                        Revolutionary artificial intelligence that doesn't just find bugs – it predicts them, prevents them, and evolves with your application.
+                    </p>
+                </div>
+                
+                <div class="service-content">
+                    <div>
+                        <h3 style="font-size: 2rem; margin-bottom: 1.5rem; color: var(--accent-color);">What Makes It Revolutionary</h3>
+                        <p style="color: var(--secondary-text); font-size: 1.1rem; line-height: 1.8; margin-bottom: 2rem;">
+                            Our AI-powered testing platform uses machine learning algorithms trained on millions of code patterns and bug scenarios. It continuously learns from your application's behavior, user interactions, and code changes to provide predictive insights that traditional testing simply cannot match.
+                        </p>
+                        
+                        <p style="color: var(--secondary-text); font-size: 1.1rem; line-height: 1.8; margin-bottom: 2rem;">
+                            The system doesn't just execute test cases – it generates new test scenarios based on real user behavior patterns, identifies potential failure points before they occur, and automatically adapts test coverage as your application evolves.
+                        </p>
+                        
+                        <ul class="feature-list">
+                            <li>🧠 Predictive Bug Detection</li>
+                            <li>⚡ Auto-Generated Test Cases</li>
+                            <li>🎯 Smart Test Prioritization</li>
+                            <li>📊 Intelligent Analytics</li>
+                            <li>🔄 Self-Healing Test Scripts</li>
+                            <li>🚀 Continuous Learning Engine</li>
+                        </ul>
+                    </div>
+                    
+                    <div>
+                        <h3 style="font-size: 2rem; margin-bottom: 1.5rem; color: var(--accent-color);">Key Benefits</h3>
+                        
+                        <div style="background: var(--card-bg); padding: 2rem; border-radius: 15px; margin-bottom: 2rem;">
+                            <h4 style="color: var(--primary-text); margin-bottom: 1rem;">🎯 99.9% Bug Detection</h4>
+                            <p style="color: var(--secondary-text);">Our AI catches bugs that human testers and traditional tools miss, including edge cases and complex interaction patterns.</p>
+                        </div>
+                        
+                        <div style="background: var(--card-bg); padding: 2rem; border-radius: 15px; margin-bottom: 2rem;">
+                            <h4 style="color: var(--primary-text); margin-bottom: 1rem;">⚡ 85% Faster Testing</h4>
+                            <p style="color: var(--secondary-text);">Automated test generation and execution reduces testing cycles from weeks to days while improving coverage.</p>
+                        </div>
+                        
+                        <div style="background: var(--card-bg); padding: 2rem; border-radius: 15px; margin-bottom: 2rem;">
+                            <h4 style="color: var(--primary-text); margin-bottom: 1rem;">🔮 Predictive Insights</h4>
+                            <p style="color: var(--secondary-text);">Get advance warnings about potential issues before they impact your users or production environment.</p>
+                        </div>
+                        
+                        <div style="text-center; margin-top: 2rem;">
+                            <button class="hero-cta-primary" onclick="navigateTo('contact')" style="display: inline-block;">Start AI Testing Now</button>
+                        </div>
+                    </div>
+                </div>
+            </section>
         </div>
-    </footer>
+        
+        <!-- Footer -->
+        <footer class="footer">
+            <div class="section">
+                <div class="footer-content">
+                    <div class="footer-section">
+                        <h4>ZATORA</h4>
+                        <p style="color: var(--secondary-text); margin-bottom: 1rem;">Redefining the future of quality assurance through innovation, precision, and relentless pursuit of perfection.</p>
+                    </div>
+                    
+                    <div class="footer-section">
+                        <h4>Services</h4>
+                        <a href="#" onclick="navigateTo('ai-testing')">AI-Powered Testing</a>
+                        <a href="#" onclick="navigateTo('automation')">Quantum Automation</a>
+                        <a href="#" onclick="navigateTo('security')">Security Testing</a>
+                        <a href="#" onclick="navigateTo('performance')">Performance Optimization</a>
+                    </div>
+                    
+                    <div class="footer-section">
+                        <h4>Company</h4>
+                        <a href="#" onclick="navigateTo('about')">About Us</a>
+                        <a href="#" onclick="navigateTo('contact')">Contact</a>
+                        <a href="#" onclick="navigateTo('contact')">Careers</a>
+                        <a href="#" onclick="navigateTo('contact')">Blog</a>
+                    </div>
+                    
+                    <div class="footer-section">
+                        <h4>Contact</h4>
+                        <p style="color: var(--secondary-text);">📧 hello@zatora.com</p>
+                        <p style="color: var(--secondary-text);">📞 +1 (555) ZATORA-1</p>
+                        <p style="color: var(--secondary-text);">🌍 Global Remote Team</p>
+                    </div>
+                </div>
+                
+                <div class="footer-bottom">
+                    <p>&copy; 2025 ZATORA. All rights reserved.</p>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <!-- AUTOMATION SERVICE PAGE -->
+    <div id="automation" class="page">
+        <div class="service-detail">
+            <section class="section">
+                <a href="#" class="back-button" onclick="navigateTo('services')">← Back to Services</a>
+                
+                <div class="service-hero">
+                    <h1>Quantum Automation</h1>
+                    <p style="font-size: 1.3rem; color: var(--secondary-text); max-width: 800px; margin: 0 auto;">
+                        Lightning-fast test execution that transforms weeks of manual testing into hours of automated perfection.
+                    </p>
+                </div>
+                
+                <div class="service-content">
+                    <div>
+                        <h3 style="font-size: 2rem; margin-bottom: 1.5rem; color: var(--accent-color);">Revolutionary Speed</h3>
+                        <p style="color: var(--secondary-text); font-size: 1.1rem; line-height: 1.8; margin-bottom: 2rem;">
+                            Our proprietary quantum automation framework leverages parallel processing, intelligent test orchestration, and advanced caching mechanisms to achieve unprecedented testing speeds without sacrificing accuracy or coverage.
+                        </p>
+                        
+                        <p style="color: var(--secondary-text); font-size: 1.1rem; line-height: 1.8; margin-bottom: 2rem;">
+                            Built for modern development workflows, our automation seamlessly integrates with CI/CD pipelines, supports all major frameworks, and scales automatically based on your project's complexity and requirements.
+                        </p>
+                        
+                        <ul class="feature-list">
+                            <li>⚡ Parallel Test Execution</li>
+                            <li>🔄 Self-Maintaining Scripts</li>
+                            <li>🌐 Cross-Platform Support</li>
+                            <li>📱 Mobile & Desktop Testing</li>
+                            <li>🚀 CI/CD Integration</li>
+                            <li>📊 Real-Time Reporting</li>
+                        </ul>
+                    </div>
+                    
+                    <div>
+                        <h3 style="font-size: 2rem; margin-bottom: 1.5rem; color: var(--accent-color);">Performance Metrics</h3>
+                        
+                        <div style="background: var(--card-bg); padding: 2rem; border-radius: 15px; margin-bottom: 2rem;">
+                            <h4 style="color: var(--primary-text); margin-bottom: 1rem;">🚀 10x Faster Execution</h4>
+                            <p style="color: var(--secondary-text);">Our quantum automation runs 10 times faster than traditional automation frameworks while maintaining 100% accuracy.</p>
+                        </div>
+                        
+                        <div style="background: var(--card-bg); padding: 2rem; border-radius: 15px; margin-bottom: 2rem;">
+                            <h4 style="color: var(--primary-text); margin-bottom: 1rem;">🎯 Zero Maintenance</h4>
+                            <p style="color: var(--secondary-text);">Self-healing scripts automatically adapt to UI changes, eliminating the need for constant test maintenance.</p>
+                        </div>
+                        
+                        <div style="background: var(--card-bg); padding: 2rem; border-radius: 15px; margin-bottom: 2rem;">
+                            <h4 style="color: var(--primary-text); margin-bottom: 1rem;">📈 95% Test Coverage</h4>
+                            <p style="color: var(--secondary-text);">Intelligent test generation ensures comprehensive coverage across all critical user journeys and edge cases.</p>
+                        </div>
+                        
+                        <div style="text-center; margin-top: 2rem;">
+                            <button class="hero-cta-primary" onclick="navigateTo('contact')" style="display: inline-block;">Accelerate Your Testing</button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+        
+        <!-- Footer -->
+        <footer class="footer">
+            <div class="section">
+                <div class="footer-content">
+                    <div class="footer-section">
+                        <h4>ZATORA</h4>
+                        <p style="color: var(--secondary-text); margin-bottom: 1rem;">Redefining the future of quality assurance through innovation, precision, and relentless pursuit of perfection.</p>
+                    </div>
+                    
+                    <div class="footer-section">
+                        <h4>Services</h4>
+                        <a href="#" onclick="navigateTo('ai-testing')">AI-Powered Testing</a>
+                        <a href="#" onclick="navigateTo('automation')">Quantum Automation</a>
+                        <a href="#" onclick="navigateTo('security')">Security Testing</a>
+                        <a href="#" onclick="navigateTo('performance')">Performance Optimization</a>
+                    </div>
+                    
+                    <div class="footer-section">
+                        <h4>Company</h4>
+                        <a href="#" onclick="navigateTo('about')">About Us</a>
+                        <a href="#" onclick="navigateTo('contact')">Contact</a>
+                        <a href="#" onclick="navigateTo('contact')">Careers</a>
+                        <a href="#" onclick="navigateTo('contact')">Blog</a>
+                    </div>
+                    
+                    <div class="footer-section">
+                        <h4>Contact</h4>
+                        <p style="color: var(--secondary-text);">📧 hello@zatora.com</p>
+                        <p style="color: var(--secondary-text);">📞 +1 (555) ZATORA-1</p>
+                        <p style="color: var(--secondary-text);">🌍 Global Remote Team</p>
+                    </div>
+                </div>
+                
+                <div class="footer-bottom">
+                    <p>&copy; 2025 ZATORA. All rights reserved.</p>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <!-- Additional service pages following the same pattern... -->
+    <!-- I'll create the remaining service pages (security, performance, mobile, cloud) in the JavaScript section for brevity -->
 
     <script>
-        // Loading overlay
-        window.addEventListener('load', function() {
-            setTimeout(() => {
-                document.getElementById('loadingOverlay').classList.add('hidden');
-            }, 1000);
-        });
+        // Router system - Enhanced compatibility
+        let currentPage = 'home';
+        
+        function navigateTo(pageId) {
+            try {
+                // Hide current page
+                const currentPageElement = document.getElementById(currentPage);
+                if (currentPageElement) {
+                    removeClass(currentPageElement, 'active');
+                }
+                
+                // Show new page
+                currentPage = pageId;
+                const targetPage = document.getElementById(pageId);
+                
+                if (targetPage) {
+                    addClass(targetPage, 'active');
+                    addClass(targetPage, 'page-transition');
+                    
+                    // Remove transition class after animation
+                    setTimeout(() => {
+                        removeClass(targetPage, 'page-transition');
+                    }, 500);
+                    
+                    // Scroll to top
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                    
+                    // Close mobile menu if open
+                    const navLinks = document.getElementById('navLinks');
+                    if (navLinks) {
+                        removeClass(navLinks, 'active');
+                    }
+                } else {
+                    // Create service detail pages dynamically if they don't exist
+                    createServicePage(pageId);
+                }
+            } catch (error) {
+                console.warn('Navigation error:', error);
+                // Basic fallback
+                const targetPage = document.getElementById(pageId);
+                if (targetPage) {
+                    targetPage.style.display = 'block';
+                    const currentPageElement = document.getElementById(currentPage);
+                    if (currentPageElement) {
+                        currentPageElement.style.display = 'none';
+                    }
+                    currentPage = pageId;
+                }
+            }
+        }
+        
+        // Create service detail pages dynamically
+        function createServicePage(serviceId) {
+            const serviceData = {
+                'security': {
+                    title: 'Fortress Security Testing',
+                    icon: '🛡️',
+                    subtitle: 'Multi-layered security analysis that goes beyond traditional penetration testing to fortify your digital fortress.',
+                    description: 'Our comprehensive security testing approach simulates real-world attack scenarios, identifies vulnerabilities across all attack vectors, and provides actionable remediation strategies to protect your applications and user data.',
+                    features: [
+                        '🔒 Penetration Testing',
+                        '🛡️ Vulnerability Assessment',
+                        '🔍 Code Security Review',
+                        '⚠️ Threat Modeling',
+                        '🚨 Security Monitoring',
+                        '📋 Compliance Auditing'
+                    ],
+                    benefits: [
+                        { title: '🔐 Zero Breaches', desc: 'Our security testing has prevented 100% of potential data breaches for our clients over the past 5 years.' },
+                        { title: '🎯 Complete Coverage', desc: 'We test every possible attack vector including OWASP Top 10, API security, and advanced persistent threats.' },
+                        { title: '⚡ Real-Time Protection', desc: 'Continuous monitoring and automated threat detection provide 24/7 security assurance.' }
+                    ]
+                },
+                'performance': {
+                    title: 'Performance Optimization',
+                    icon: '🚀',
+                    subtitle: 'Unlock your application\'s true potential with performance testing that scales beyond limits.',
+                    description: 'Our performance optimization suite uses advanced load simulation, memory profiling, and bottleneck analysis to ensure your application performs flawlessly under any condition, from single users to millions of concurrent sessions.',
+                    features: [
+                        '⚡ Load Testing',
+                        '📊 Stress Testing',
+                        '🔄 Endurance Testing',
+                        '📈 Scalability Analysis',
+                        '🎯 Bottleneck Detection',
+                        '⚙️ Performance Tuning'
+                    ],
+                    benefits: [
+                        { title: '🚀 10x Performance', desc: 'Our optimization techniques have improved application performance by up to 1000% for complex enterprise systems.' },
+                        { title: '💰 Cost Reduction', desc: 'Efficient performance means lower infrastructure costs and better resource utilization across your entire stack.' },
+                        { title: '👥 Unlimited Scale', desc: 'Handle millions of concurrent users without degradation in performance or user experience.' }
+                    ]
+                },
+                'mobile': {
+                    title: 'Cross-Platform Mastery',
+                    icon: '📱',
+                    subtitle: 'Seamless testing across all devices, platforms, and operating systems with zero compromises.',
+                    description: 'Our cross-platform testing ensures your application delivers consistent, high-quality experiences across iOS, Android, web browsers, and desktop environments using cutting-edge device farms and simulation technologies.',
+                    features: [
+                        '📱 Mobile App Testing',
+                        '🌐 Cross-Browser Testing',
+                        '💻 Desktop Applications',
+                        '⌚ Wearable Devices',
+                        '🎮 Gaming Platforms',
+                        '📺 Smart TV Applications'
+                    ],
+                    benefits: [
+                        { title: '🌍 Global Compatibility', desc: 'Test on 500+ real devices and browsers to ensure universal compatibility and optimal user experience.' },
+                        { title: '⚡ Parallel Testing', desc: 'Run tests simultaneously across multiple platforms, reducing testing time by 90% while increasing coverage.' },
+                        { title: '🎯 Perfect UX', desc: 'Ensure pixel-perfect rendering and consistent functionality across all target platforms and devices.' }
+                    ]
+                },
+                'cloud': {
+                    title: 'Cloud-Native Solutions',
+                    icon: '☁️',
+                    subtitle: 'Scalable testing infrastructure that grows with your ambitions and adapts to any demand.',
+                    description: 'Our cloud-native testing platform provides unlimited scalability, global distribution, and enterprise-grade reliability, allowing you to test applications at any scale with zero infrastructure management overhead.',
+                    features: [
+                        '☁️ Serverless Testing',
+                        '🌍 Global Distribution',
+                        '📈 Auto-Scaling',
+                        '🔄 Container Testing',
+                        '🏗️ Microservices QA',
+                        '🚀 DevOps Integration'
+                    ],
+                    benefits: [
+                        { title: '♾️ Infinite Scale', desc: 'Our cloud infrastructure automatically scales to handle any testing load, from small projects to enterprise-level applications.' },
+                        { title: '💰 Cost Efficient', desc: 'Pay only for what you use with our dynamic resource allocation and intelligent cost optimization algorithms.' },
+                        { title: '🌍 Global Reach', desc: 'Test from multiple geographic locations simultaneously to ensure optimal performance for your global user base.' }
+                    ]
+                }
+            };
+            
+            const service = serviceData[serviceId];
+            if (!service) return;
+            
+            const pageHtml = `
+                <div class="service-detail">
+                    <section class="section">
+                        <a href="#" class="back-button" onclick="navigateTo('services')">← Back to Services</a>
+                        
+                        <div class="service-hero">
+                            <h1>${service.title}</h1>
+                            <p style="font-size: 1.3rem; color: var(--secondary-text); max-width: 800px; margin: 0 auto;">
+                                ${service.subtitle}
+                            </p>
+                        </div>
+                        
+                        <div class="service-content">
+                            <div>
+                                <h3 style="font-size: 2rem; margin-bottom: 1.5rem; color: var(--accent-color);">What We Deliver</h3>
+                                <p style="color: var(--secondary-text); font-size: 1.1rem; line-height: 1.8; margin-bottom: 2rem;">
+                                    ${service.description}
+                                </p>
+                                
+                                <ul class="feature-list">
+                                    ${service.features.map(feature => `<li>${feature}</li>`).join('')}
+                                </ul>
+                            </div>
+                            
+                            <div>
+                                <h3 style="font-size: 2rem; margin-bottom: 1.5rem; color: var(--accent-color);">Key Results</h3>
+                                
+                                ${service.benefits.map(benefit => `
+                                    <div style="background: var(--card-bg); padding: 2rem; border-radius: 15px; margin-bottom: 2rem;">
+                                        <h4 style="color: var(--primary-text); margin-bottom: 1rem;">${benefit.title}</h4>
+                                        <p style="color: var(--secondary-text);">${benefit.desc}</p>
+                                    </div>
+                                `).join('')}
+                                
+                                <div style="text-center; margin-top: 2rem;">
+                                    <button class="hero-cta-primary" onclick="navigateTo('contact')" style="display: inline-block;">Get Started Now</button>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+                
+                <!-- Footer -->
+                <footer class="footer">
+                    <div class="section">
+                        <div class="footer-content">
+                            <div class="footer-section">
+                                <h4>ZATORA</h4>
+                                <p style="color: var(--secondary-text); margin-bottom: 1rem;">Redefining the future of quality assurance through innovation, precision, and relentless pursuit of perfection.</p>
+                            </div>
+                            
+                            <div class="footer-section">
+                                <h4>Services</h4>
+                                <a href="#" onclick="navigateTo('ai-testing')">AI-Powered Testing</a>
+                                <a href="#" onclick="navigateTo('automation')">Quantum Automation</a>
+                                <a href="#" onclick="navigateTo('security')">Security Testing</a>
+                                <a href="#" onclick="navigateTo('performance')">Performance Optimization</a>
+                            </div>
+                            
+                            <div class="footer-section">
+                                <h4>Company</h4>
+                                <a href="#" onclick="navigateTo('about')">About Us</a>
+                                <a href="#" onclick="navigateTo('contact')">Contact</a>
+                                <a href="#" onclick="navigateTo('contact')">Careers</a>
+                                <a href="#" onclick="navigateTo('contact')">Blog</a>
+                            </div>
+                            
+                            <div class="footer-section">
+                                <h4>Contact</h4>
+                                <p style="color: var(--secondary-text);">📧 hello@zatora.com</p>
+                                <p style="color: var(--secondary-text);">📞 +1 (555) ZATORA-1</p>
+                                <p style="color: var(--secondary-text);">🌍 Global Remote Team</p>
+                            </div>
+                        </div>
+                        
+                        <div class="footer-bottom">
+                            <p>&copy; 2025 ZATORA. All rights reserved.</p>
+                        </div>
+                    </div>
+                </footer>
+            `;
+            
+            // Create the page element
+            const pageElement = document.createElement('div');
+            pageElement.id = serviceId;
+            pageElement.className = 'page';
+            pageElement.innerHTML = pageHtml;
+            
+            // Add to document
+            document.body.appendChild(pageElement);
+            
+            // Navigate to the newly created page
+            navigateTo(serviceId);
+        }
 
-        // Custom cursor
+        // Mobile menu toggle - Enhanced compatibility
+        function toggleMenu() {
+            const navLinks = document.getElementById('navLinks');
+            if (navLinks) {
+                if (hasClass(navLinks, 'active')) {
+                    removeClass(navLinks, 'active');
+                } else {
+                    addClass(navLinks, 'active');
+                }
+            }
+        }
+
+        // Custom cursor functionality
         const cursor = document.getElementById('cursor');
         const cursorFollower = document.getElementById('cursorFollower');
 
@@ -1239,145 +1645,190 @@
             }, 100);
         });
 
-        // Enhanced cursor interactions
-        document.querySelectorAll('a, button, .service-card, .contact-method').forEach(el => {
-            el.addEventListener('mouseenter', () => {
+        // Compatibility helper functions
+        function getClosest(element, selector) {
+            if (!element) return null;
+            
+            // Modern browsers
+            if (element.closest) {
+                try {
+                    return element.closest(selector);
+                } catch (e) {
+                    // Fallback if selector is invalid
+                }
+            }
+            
+            // Fallback for older browsers
+            let current = element;
+            while (current && current !== document) {
+                if (matchesElement(current, selector)) {
+                    return current;
+                }
+                current = current.parentElement || current.parentNode;
+                if (current === document) break;
+            }
+            return null;
+        }
+
+        function matchesElement(element, selector) {
+            if (!element || !element.tagName) return false;
+            
+            // Handle class selectors
+            if (selector.startsWith('.')) {
+                const className = selector.substring(1);
+                return element.classList && element.classList.contains(className);
+            }
+            
+            // Handle tag selectors
+            if (selector.toUpperCase() === element.tagName.toUpperCase()) {
+                return true;
+            }
+            
+            return false;
+        }
+
+        function hasClass(element, className) {
+            if (!element) return false;
+            if (element.classList && element.classList.contains) {
+                return element.classList.contains(className);
+            }
+            // Fallback for older browsers
+            if (element.className) {
+                return element.className.split(' ').indexOf(className) !== -1;
+            }
+            return false;
+        }
+
+        function addClass(element, className) {
+            if (!element) return;
+            if (element.classList && element.classList.add) {
+                element.classList.add(className);
+            } else if (element.className) {
+                if (!hasClass(element, className)) {
+                    element.className += ' ' + className;
+                }
+            }
+        }
+
+        function removeClass(element, className) {
+            if (!element) return;
+            if (element.classList && element.classList.remove) {
+                element.classList.remove(className);
+            } else if (element.className) {
+                element.className = element.className.replace(new RegExp('\\b' + className + '\\b', 'g'), '').trim();
+            }
+        }
+
+        function isInteractiveElement(element) {
+            if (!element || !element.tagName) return false;
+            
+            return element.tagName === 'A' || 
+                   element.tagName === 'BUTTON' || 
+                   hasClass(element, 'service-card') || 
+                   hasClass(element, 'contact-method') || 
+                   hasClass(element, 'logo') ||
+                   hasClass(element, 'hero-cta-primary') ||
+                   hasClass(element, 'hero-cta-secondary') ||
+                   hasClass(element, 'nav-cta');
+        }
+
+        // Enhanced cursor interactions - Fixed compatibility
+        document.addEventListener('click', (e) => {
+            const target = e.target;
+            if (!target) return;
+            
+            if (isInteractiveElement(target) || getClosest(target, '.service-card')) {
                 cursor.style.transform = 'scale(1.5)';
                 cursorFollower.style.transform = 'scale(0.5)';
-            });
+                
+                setTimeout(() => {
+                    cursor.style.transform = 'scale(1)';
+                    cursorFollower.style.transform = 'scale(1)';
+                }, 200);
+            }
+        });
+
+        document.addEventListener('mouseenter', (e) => {
+            const target = e.target;
+            if (!target) return;
             
-            el.addEventListener('mouseleave', () => {
+            if (isInteractiveElement(target) || getClosest(target, '.service-card')) {
+                cursor.style.transform = 'scale(1.5)';
+                cursorFollower.style.transform = 'scale(0.5)';
+            }
+        }, true);
+        
+        document.addEventListener('mouseleave', (e) => {
+            const target = e.target;
+            if (!target) return;
+            
+            if (isInteractiveElement(target) || getClosest(target, '.service-card')) {
                 cursor.style.transform = 'scale(1)';
                 cursorFollower.style.transform = 'scale(1)';
-            });
-        });
+            }
+        }, true);
 
-        // Smooth scrolling function
-        function scrollToSection(sectionId) {
-            document.getElementById(sectionId).scrollIntoView({
-                behavior: 'smooth',
-                block: 'start'
-            });
-        }
-
-        // Navigation smooth scrolling
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
+        // Form submission handling
+        document.addEventListener('submit', function(e) {
+            if (e.target.id === 'contactForm') {
                 e.preventDefault();
-                const target = document.querySelector(this.getAttribute('href'));
-                if (target) {
-                    target.scrollIntoView({
-                        behavior: 'smooth',
-                        block: 'start'
-                    });
-                }
-            });
-        });
-
-        // Stats counter animation
-        function animateCounters() {
-            const counters = document.querySelectorAll('.stat-number');
-            const speed = 200;
-
-            counters.forEach(counter => {
-                const updateCount = () => {
-                    const target = +counter.getAttribute('data-count');
-                    const count = +counter.innerText;
-                    const inc = target / speed;
-
-                    if (count < target) {
-                        counter.innerText = Math.ceil(count + inc);
-                        setTimeout(updateCount, 1);
-                    } else {
-                        counter.innerText = target;
-                    }
-                };
-                updateCount();
-            });
-        }
-
-        // Trigger counter animation when stats section is visible
-        const observerOptions = {
-            threshold: 0.5,
-            rootMargin: '0px 0px -100px 0px'
-        };
-
-        const statsObserver = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting && entry.target.id === 'stats') {
-                    animateCounters();
-                    statsObserver.unobserve(entry.target);
-                }
-            });
-        }, observerOptions);
-
-        document.getElementById('stats').addEventListener('DOMContentLoaded', () => {
-            statsObserver.observe(document.getElementById('stats'));
-        });
-
-        // Initialize stats observer after DOM is loaded
-        setTimeout(() => {
-            statsObserver.observe(document.getElementById('stats'));
-        }, 100);
-
-        // Enhanced form submission
-        document.getElementById('contactForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            const submitBtn = this.querySelector('.submit-btn');
-            const originalText = submitBtn.textContent;
-            
-            // Loading state
-            submitBtn.textContent = 'Launching...';
-            submitBtn.style.background = 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)';
-            
-            // Collect all form data
-            const formData = new FormData(this);
-            const data = Object.fromEntries(formData);
-            
-            // Simulate processing time
-            setTimeout(() => {
-                // Success state
-                submitBtn.textContent = '🚀 Mission Accepted!';
-                submitBtn.style.background = 'linear-gradient(135deg, #00ff87 0%, #60efff 100%)';
                 
-                // Success message
-                const successMessage = document.createElement('div');
-                successMessage.innerHTML = `
-                    <div style="background: linear-gradient(135deg, #00ff87 0%, #60efff 100%); 
-                                color: white; 
-                                padding: 1rem 2rem; 
-                                border-radius: 10px; 
-                                margin-top: 1rem; 
-                                text-align: center; 
-                                font-weight: bold;
-                                animation: slideInFromBottom 0.5s ease-out;">
-                        ✅ Your quality revolution starts now! We'll contact you within 2 hours.
-                    </div>
-                `;
+                const submitBtn = e.target.querySelector('.submit-btn');
+                const originalText = submitBtn.textContent;
                 
-                this.appendChild(successMessage);
+                // Loading state
+                submitBtn.textContent = 'Launching Revolution...';
+                submitBtn.style.background = 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)';
+                submitBtn.disabled = true;
                 
-                // Log the comprehensive form data
-                console.log('ZATORA Contact Form Submission:', {
-                    timestamp: new Date().toISOString(),
-                    ...data,
-                    source: 'ZATORA Website',
-                    priority: data.timeline === 'immediate' || data.timeline === 'urgent' ? 'HIGH' : 'NORMAL'
-                });
+                // Collect form data
+                const formData = new FormData(e.target);
+                const data = Object.fromEntries(formData);
                 
-                // Reset form after delay
+                // Simulate processing
                 setTimeout(() => {
-                    this.reset();
-                    submitBtn.textContent = originalText;
-                    submitBtn.style.background = 'var(--gradient-accent)';
-                    successMessage.remove();
-                }, 5000);
-                
-            }, 2000);
+                    // Success state
+                    submitBtn.textContent = '🚀 Mission Accepted!';
+                    submitBtn.style.background = 'linear-gradient(135deg, #00ff87 0%, #60efff 100%)';
+                    
+                    // Success message
+                    const successMessage = document.createElement('div');
+                    successMessage.innerHTML = `
+                        <div style="background: linear-gradient(135deg, #00ff87 0%, #60efff 100%); 
+                                    color: white; 
+                                    padding: 1rem 2rem; 
+                                    border-radius: 15px; 
+                                    margin-top: 1rem; 
+                                    text-align: center; 
+                                    font-weight: bold;
+                                    animation: slideInFromBottom 0.5s ease-out;">
+                            ✅ Your quality revolution starts now! We'll contact you within 2 hours.
+                        </div>
+                    `;
+                    
+                    e.target.appendChild(successMessage);
+                    
+                    console.log('ZATORA Contact Form Submission:', {
+                        timestamp: new Date().toISOString(),
+                        ...data,
+                        source: 'ZATORA Website Multi-Page',
+                        priority: data.projectType === 'urgent' ? 'HIGH' : 'NORMAL'
+                    });
+                    
+                    // Reset after delay
+                    setTimeout(() => {
+                        e.target.reset();
+                        submitBtn.textContent = originalText;
+                        submitBtn.style.background = 'var(--gradient-accent)';
+                        submitBtn.disabled = false;
+                        successMessage.remove();
+                    }, 5000);
+                    
+                }, 2000);
+            }
         });
 
-        // Enhanced scroll effects
+        // Navbar scroll effects
         window.addEventListener('scroll', function() {
             const navbar = document.querySelector('.navbar');
             const scrolled = window.scrollY;
@@ -1393,27 +1844,31 @@
 
         // Parallax effect for hero background
         window.addEventListener('scroll', () => {
-            const scrolled = window.pageYOffset;
-            const parallax = document.querySelector('.hero-bg');
-            const speed = scrolled * 0.5;
-            parallax.style.transform = `translateY(${speed}px)`;
+            const heroBackground = document.querySelector('.hero-bg');
+            if (heroBackground && currentPage === 'home') {
+                const scrolled = window.pageYOffset;
+                const speed = scrolled * 0.5;
+                heroBackground.style.transform = `translateY(${speed}px)`;
+            }
         });
 
         // Interactive particle movement
         document.addEventListener('mousemove', (e) => {
-            const particles = document.querySelectorAll('.particle');
-            const x = e.clientX / window.innerWidth;
-            const y = e.clientY / window.innerHeight;
-            
-            particles.forEach((particle, index) => {
-                const speed = (index + 1) * 0.02;
-                const xPos = (x - 0.5) * speed * 100;
-                const yPos = (y - 0.5) * speed * 100;
-                particle.style.transform = `translate(${xPos}px, ${yPos}px)`;
-            });
+            if (currentPage === 'home') {
+                const particles = document.querySelectorAll('.particle');
+                const x = e.clientX / window.innerWidth;
+                const y = e.clientY / window.innerHeight;
+                
+                particles.forEach((particle, index) => {
+                    const speed = (index + 1) * 0.02;
+                    const xPos = (x - 0.5) * speed * 100;
+                    const yPos = (y - 0.5) * speed * 100;
+                    particle.style.transform = `translate(${xPos}px, ${yPos}px)`;
+                });
+            }
         });
 
-        // Add intersection observer for animations
+        // Intersection observer for animations
         const animationObserver = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
@@ -1423,13 +1878,87 @@
             });
         }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
 
-        // Observe all service cards and feature cards
-        document.querySelectorAll('.service-card, .feature-card, .contact-method').forEach(el => {
-            el.style.opacity = '0';
-            animationObserver.observe(el);
+        // Re-observe elements when page changes
+        function observeElements() {
+            document.querySelectorAll('.service-card, .feature-list li, .form-group').forEach(el => {
+                el.style.opacity = '0';
+                animationObserver.observe(el);
+            });
+        }
+
+        // Initialize - Enhanced error handling
+        document.addEventListener('DOMContentLoaded', function() {
+            try {
+                observeElements();
+                
+                // Handle direct URL navigation (simplified for demo)
+                const hash = window.location.hash.substring(1);
+                if (hash && hash !== 'home' && hash !== '') {
+                    setTimeout(() => navigateTo(hash), 100);
+                }
+                
+                // Update URL when navigating (for better UX)
+                const originalNavigateTo = navigateTo;
+                navigateTo = function(pageId) {
+                    try {
+                        originalNavigateTo(pageId);
+                        if (window.location.hash !== '#' + pageId) {
+                            window.location.hash = pageId;
+                        }
+                        setTimeout(() => observeElements(), 100);
+                    } catch (error) {
+                        console.warn('Navigation error:', error);
+                        // Fallback navigation
+                        document.getElementById(currentPage).classList.remove('active');
+                        const targetPage = document.getElementById(pageId);
+                        if (targetPage) {
+                            currentPage = pageId;
+                            targetPage.classList.add('active');
+                            window.scrollTo({ top: 0, behavior: 'smooth' });
+                        }
+                    }
+                };
+                
+            } catch (error) {
+                console.warn('Initialization error:', error);
+            }
         });
 
-        // Easter egg: Konami code for developers
+        // Prevent default link behavior for navigation - Fixed compatibility
+        document.addEventListener('click', function(e) {
+            const target = e.target;
+            if (target.tagName === 'A' && target.getAttribute('onclick') && target.getAttribute('onclick').includes('navigateTo')) {
+                e.preventDefault();
+            }
+        });
+
+        // Handle browser back/forward buttons - Enhanced error handling
+        window.addEventListener('hashchange', function() {
+            try {
+                const hash = window.location.hash.substring(1) || 'home';
+                if (hash !== currentPage) {
+                    // Direct page switching without the enhanced navigateTo to avoid recursion
+                    document.getElementById(currentPage).classList.remove('active');
+                    currentPage = hash;
+                    const targetPage = document.getElementById(hash);
+                    if (targetPage) {
+                        targetPage.classList.add('active');
+                        targetPage.classList.add('page-transition');
+                        setTimeout(() => {
+                            targetPage.classList.remove('page-transition');
+                        }, 500);
+                        window.scrollTo({ top: 0, behavior: 'smooth' });
+                    } else {
+                        // Create service page if it doesn't exist
+                        createServicePage(hash);
+                    }
+                }
+            } catch (error) {
+                console.warn('Hash change error:', error);
+            }
+        });
+
+        // Easter egg: Konami code
         let konamiCode = [];
         const konamiSequence = ['ArrowUp', 'ArrowUp', 'ArrowDown', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'ArrowLeft', 'ArrowRight', 'KeyB', 'KeyA'];
 
@@ -1443,22 +1972,42 @@
                 document.body.style.backgroundSize = '400% 400%';
                 document.body.style.animation = 'rainbowBg 3s ease infinite';
                 
+                // Add rainbow animation
+                const rainbowStyle = document.createElement('style');
+                rainbowStyle.textContent = `
+                    @keyframes rainbowBg {
+                        0% { background-position: 0% 50%; }
+                        50% { background-position: 100% 50%; }
+                        100% { background-position: 0% 50%; }
+                    }
+                `;
+                document.head.appendChild(rainbowStyle);
+                
                 setTimeout(() => {
                     location.reload();
                 }, 5000);
             }
         });
 
-        // Add rainbow background animation for easter egg
-        const rainbowStyle = document.createElement('style');
-        rainbowStyle.textContent = `
-            @keyframes rainbowBg {
-                0% { background-position: 0% 50%; }
-                50% { background-position: 100% 50%; }
-                100% { background-position: 0% 50%; }
-            }
-        `;
-        document.head.appendChild(rainbowStyle);
+        // Performance optimization: Lazy load service pages - Fixed compatibility
+        const servicePages = ['security', 'performance', 'mobile', 'cloud'];
+        servicePages.forEach(serviceId => {
+            // Pre-create pages when user hovers over service cards
+            document.addEventListener('mouseenter', function(e) {
+                const target = e.target;
+                if (!target) return;
+                
+                const serviceCard = getClosest(target, '.service-card');
+                if (serviceCard) {
+                    const onclickAttr = serviceCard.getAttribute('onclick');
+                    if (onclickAttr && onclickAttr.indexOf(serviceId) !== -1) {
+                        if (!document.getElementById(serviceId)) {
+                            createServicePage(serviceId);
+                        }
+                    }
+                }
+            }, true);
+        });
     </script>
 </body>
 </html>

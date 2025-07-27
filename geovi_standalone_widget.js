@@ -275,7 +275,7 @@
             font-weight: 500 !important;
         }
 
-        /* INPUT AREA - Fixed Bottom */
+        /* INPUT AREA - Fixed Bottom - ÎMBUNĂTĂȚIT PENTRU MOBILE */
         .geovi-input-v5 {
             padding: 16px 20px !important;
             background: white !important;
@@ -289,12 +289,17 @@
             padding-bottom: max(16px, env(safe-area-inset-bottom)) !important;
         }
 
+        /* CRUCIAL: Când tastatura este deschisă pe mobile */
         .geovi-input-v5.keyboard-open {
             position: fixed !important;
             bottom: 0 !important;
             left: 0 !important;
             right: 0 !important;
             z-index: 1000002 !important;
+            padding-bottom: 16px !important; /* Forțează padding fix */
+            background: white !important;
+            border-top: 1px solid #e1e5e9 !important;
+            box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.1) !important; /* Shadow pentru separare */
         }
 
         .geovi-field-v5 {
@@ -628,37 +633,90 @@
                 const heightDiff = initialHeight - currentHeight;
                 
                 if (heightDiff > 150) {
-                    // Keyboard open
+                    // Keyboard is open - FORȚEAZĂ input-ul să fie lipit de tastatură
                     this.keyboardOpen = true;
                     this.inputArea.classList.add('keyboard-open');
+                    
+                    // CRUCIAL: Calculează exact unde să fie input-ul
+                    const keyboardHeight = heightDiff;
+                    this.inputArea.style.position = 'fixed';
+                    this.inputArea.style.bottom = '0px';
+                    this.inputArea.style.left = '0';
+                    this.inputArea.style.right = '0';
+                    this.inputArea.style.zIndex = '1000002';
+                    
+                    // Ajustează messages area să nu se suprapună
+                    this.messages.style.paddingBottom = (this.inputArea.offsetHeight + 20) + 'px';
+                    
                     this.adjustForKeyboard(true);
                 } else {
-                    // Keyboard closed
+                    // Keyboard closed - resetează totul
                     this.keyboardOpen = false;
                     this.inputArea.classList.remove('keyboard-open');
+                    this.inputArea.style.position = 'relative';
+                    this.inputArea.style.bottom = 'auto';
+                    this.inputArea.style.left = 'auto';
+                    this.inputArea.style.right = 'auto';
+                    this.inputArea.style.zIndex = 'auto';
+                    
                     this.adjustForKeyboard(false);
                 }
             };
 
             window.addEventListener('resize', handleResize);
 
-            // iOS Visual Viewport API support
+            // iOS Visual Viewport API support - ÎMBUNĂTĂȚIT
             if (window.visualViewport) {
                 window.visualViewport.addEventListener('resize', () => {
-                    const keyboardHeight = window.innerHeight - window.visualViewport.height;
-                    if (keyboardHeight > 0 && this.chat.classList.contains('open')) {
-                        this.inputArea.style.transform = `translateY(-${keyboardHeight}px)`;
-                    } else {
-                        this.inputArea.style.transform = '';
+                    if (this.chat.classList.contains('open')) {
+                        const keyboardHeight = window.innerHeight - window.visualViewport.height;
+                        
+                        if (keyboardHeight > 0) {
+                            // Keyboard open - poziționează input-ul exact deasupra tastaturii
+                            this.inputArea.style.position = 'fixed';
+                            this.inputArea.style.bottom = '0px';
+                            this.inputArea.style.left = '0';
+                            this.inputArea.style.right = '0';
+                            this.inputArea.style.transform = 'none';
+                            
+                            // Ajustează messages să nu se suprapună
+                            this.messages.style.paddingBottom = (this.inputArea.offsetHeight + 20) + 'px';
+                        } else {
+                            // Keyboard closed
+                            this.inputArea.style.position = 'relative';
+                            this.inputArea.style.bottom = 'auto';
+                            this.inputArea.style.transform = '';
+                            this.messages.style.paddingBottom = window.innerWidth >= 1024 ? '20px' : '16px';
+                        }
                     }
                 });
             }
 
-            // Focus handling
+            // Focus handling - ÎMBUNĂTĂȚIT
             this.field.addEventListener('focus', () => {
                 setTimeout(() => {
                     this.scrollToBottom();
+                    
+                    // Dublu-check pentru iOS - forțează poziționarea corectă
+                    if (this.keyboardOpen || window.visualViewport?.height < window.innerHeight) {
+                        this.inputArea.style.position = 'fixed';
+                        this.inputArea.style.bottom = '0px';
+                        this.inputArea.style.left = '0';
+                        this.inputArea.style.right = '0';
+                    }
                 }, 300);
+            });
+
+            // Blur handling
+            this.field.addEventListener('blur', () => {
+                setTimeout(() => {
+                    if (!this.keyboardOpen) {
+                        this.inputArea.style.position = 'relative';
+                        this.inputArea.style.bottom = 'auto';
+                        this.inputArea.style.left = 'auto';
+                        this.inputArea.style.right = 'auto';
+                    }
+                }, 100);
             });
         }
 
@@ -725,16 +783,38 @@
             this.chat.classList.remove('open');
             document.body.classList.remove('geovi-chat-open-v5');
             
-            // Reset keyboard handling
+            // Reset keyboard handling COMPLET
             this.inputArea.classList.remove('keyboard-open');
+            this.inputArea.style.position = 'relative';
+            this.inputArea.style.bottom = 'auto';
+            this.inputArea.style.left = 'auto';
+            this.inputArea.style.right = 'auto';
             this.inputArea.style.transform = '';
+            this.inputArea.style.zIndex = 'auto';
             this.messages.style.paddingBottom = window.innerWidth >= 1024 ? '20px' : '16px';
         }
 
         scrollToBottom() {
             setTimeout(() => {
-                this.messages.scrollTop = this.messages.scrollHeight;
+                if (this.messages.scrollHeight > this.messages.clientHeight) {
+                    this.messages.scrollTop = this.messages.scrollHeight;
+                }
             }, 50);
+        }
+
+        // NOUĂ FUNCȚIE: Scroll agresiv pentru răspunsurile AI
+        scrollToBottomForced() {
+            // Încercare multiplă pentru a fi sigur că se face scroll
+            for (let i = 0; i < 3; i++) {
+                setTimeout(() => {
+                    this.messages.scrollTop = this.messages.scrollHeight;
+                    
+                    // Scroll suplimentar pentru siguranță
+                    setTimeout(() => {
+                        this.messages.scrollTop = this.messages.scrollHeight + 100;
+                    }, 50);
+                }, i * 100);
+            }
         }
 
         connect(webhookUrl) {
@@ -832,7 +912,14 @@
             }
             
             this.messages.appendChild(messageElement);
-            this.scrollToBottom();
+            
+            // SCROLL DIFERIT pentru user vs AI
+            if (sender === 'user') {
+                this.scrollToBottom();
+            } else {
+                // Pentru răspunsurile AI - scroll agresiv
+                this.scrollToBottomForced();
+            }
         }
 
         showLoading() {

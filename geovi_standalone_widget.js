@@ -633,90 +633,43 @@
                 const heightDiff = initialHeight - currentHeight;
                 
                 if (heightDiff > 150) {
-                    // Keyboard is open - FORȚEAZĂ input-ul să fie lipit de tastatură
+                    // Keyboard is open - SIMPLU
                     this.keyboardOpen = true;
                     this.inputArea.classList.add('keyboard-open');
-                    
-                    // CRUCIAL: Calculează exact unde să fie input-ul
-                    const keyboardHeight = heightDiff;
-                    this.inputArea.style.position = 'fixed';
-                    this.inputArea.style.bottom = '0px';
-                    this.inputArea.style.left = '0';
-                    this.inputArea.style.right = '0';
-                    this.inputArea.style.zIndex = '1000002';
-                    
-                    // Ajustează messages area să nu se suprapună
-                    this.messages.style.paddingBottom = (this.inputArea.offsetHeight + 20) + 'px';
-                    
                     this.adjustForKeyboard(true);
                 } else {
-                    // Keyboard closed - resetează totul
+                    // Keyboard closed - SIMPLU
                     this.keyboardOpen = false;
                     this.inputArea.classList.remove('keyboard-open');
-                    this.inputArea.style.position = 'relative';
-                    this.inputArea.style.bottom = 'auto';
-                    this.inputArea.style.left = 'auto';
-                    this.inputArea.style.right = 'auto';
-                    this.inputArea.style.zIndex = 'auto';
-                    
                     this.adjustForKeyboard(false);
                 }
             };
 
             window.addEventListener('resize', handleResize);
 
-            // iOS Visual Viewport API support - ÎMBUNĂTĂȚIT
+            // iOS Visual Viewport API - SIMPLU
             if (window.visualViewport) {
                 window.visualViewport.addEventListener('resize', () => {
                     if (this.chat.classList.contains('open')) {
                         const keyboardHeight = window.innerHeight - window.visualViewport.height;
                         
                         if (keyboardHeight > 0) {
-                            // Keyboard open - poziționează input-ul exact deasupra tastaturii
-                            this.inputArea.style.position = 'fixed';
-                            this.inputArea.style.bottom = '0px';
-                            this.inputArea.style.left = '0';
-                            this.inputArea.style.right = '0';
-                            this.inputArea.style.transform = 'none';
-                            
-                            // Ajustează messages să nu se suprapună
-                            this.messages.style.paddingBottom = (this.inputArea.offsetHeight + 20) + 'px';
+                            // Keyboard deschisă - adaugă padding jos la messages
+                            this.messages.style.paddingBottom = (keyboardHeight + 80) + 'px';
+                            this.scrollToBottomForced();
                         } else {
-                            // Keyboard closed
-                            this.inputArea.style.position = 'relative';
-                            this.inputArea.style.bottom = 'auto';
-                            this.inputArea.style.transform = '';
-                            this.messages.style.paddingBottom = window.innerWidth >= 1024 ? '20px' : '16px';
+                            // Keyboard închisă - resetează padding
+                            this.messages.style.paddingBottom = '16px';
                         }
                     }
                 });
             }
 
-            // Focus handling - ÎMBUNĂTĂȚIT
+            // Focus handling - SIMPLU
             this.field.addEventListener('focus', () => {
                 setTimeout(() => {
-                    this.scrollToBottom();
-                    
-                    // Dublu-check pentru iOS - forțează poziționarea corectă
-                    if (this.keyboardOpen || window.visualViewport?.height < window.innerHeight) {
-                        this.inputArea.style.position = 'fixed';
-                        this.inputArea.style.bottom = '0px';
-                        this.inputArea.style.left = '0';
-                        this.inputArea.style.right = '0';
-                    }
+                    this.scrollToBottomForced();
                 }, 300);
-            });
-
-            // Blur handling
-            this.field.addEventListener('blur', () => {
-                setTimeout(() => {
-                    if (!this.keyboardOpen) {
-                        this.inputArea.style.position = 'relative';
-                        this.inputArea.style.bottom = 'auto';
-                        this.inputArea.style.left = 'auto';
-                        this.inputArea.style.right = 'auto';
-                    }
-                }, 100);
             });
         }
 
@@ -783,14 +736,8 @@
             this.chat.classList.remove('open');
             document.body.classList.remove('geovi-chat-open-v5');
             
-            // Reset keyboard handling COMPLET
+            // Reset keyboard handling - SIMPLU
             this.inputArea.classList.remove('keyboard-open');
-            this.inputArea.style.position = 'relative';
-            this.inputArea.style.bottom = 'auto';
-            this.inputArea.style.left = 'auto';
-            this.inputArea.style.right = 'auto';
-            this.inputArea.style.transform = '';
-            this.inputArea.style.zIndex = 'auto';
             this.messages.style.paddingBottom = window.innerWidth >= 1024 ? '20px' : '16px';
         }
 
